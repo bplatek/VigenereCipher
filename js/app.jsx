@@ -74,15 +74,16 @@ class Container extends React.Component {
   decryptIt_2(event) {
     const myKey = this.props.myKey;
     const alphabet = this.state.alphabet;
-    const encryptedMessage = event.target.value;
+    const encryptedMessage = event.target.value.split('');
     let keyCycle = -1;
+    console.log(event.target.value);
     const messageArray = encryptedMessage.map((e, i) => {
       if (i % (myKey.length) == 0) {
         keyCycle++;
       }
       const index1 = alphabet.indexOf(e);
       const index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
-      const openLetterIndex = (index1 - index2) % alphabet.length;
+      let openLetterIndex = (index1 - index2) % alphabet.length;
       if (openLetterIndex < 0) {
         openLetterIndex += alphabet.length;
       }
