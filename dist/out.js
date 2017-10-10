@@ -175,52 +175,41 @@ var Container = function (_React$Component2) {
 
       var myKey = this.props.myKey;
       var alphabet = this.state.alphabet;
-      var encryptedMessage = event.target.value;
-      setTimeout(function () {
-        var message = '';
-        var counter = 0;
-        for (var i = 0; i < encryptedMessage.length; i++) {
-          if (counter == myKey.length) {
-            counter = 0;
-          }
-          var index1 = alphabet.indexOf(encryptedMessage[i]);
-          var index2 = alphabet.indexOf(myKey[counter]);
-          var openLetterIndex = (index1 - index2) % alphabet.length;
-          if (openLetterIndex < 0) {
-            openLetterIndex += alphabet.length;
-          }
-          message += alphabet[openLetterIndex];
-          counter++;
-        }
-        _this3.setState({
-          message: message
-        });
-      }, 1000);
-    }
-  }, {
-    key: 'decryptIt_2',
-    value: function decryptIt_2(event) {
-      var myKey = this.props.myKey;
-      var alphabet = this.state.alphabet;
       var encryptedMessage = event.target.value.split('');
       var keyCycle = -1;
-      console.log(event.target.value);
-      var messageArray = encryptedMessage.map(function (e, i) {
-        if (i % myKey.length == 0) {
-          keyCycle++;
+      for (var i = 0; i < 10; i++) {
+        if (i == 9) {
+          setTimeout(function () {
+            var messageArray = encryptedMessage.map(function (e, i) {
+              if (i % myKey.length == 0) {
+                keyCycle++;
+              }
+              var index1 = alphabet.indexOf(e);
+              var index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
+              var openLetterIndex = (index1 - index2) % alphabet.length;
+              if (openLetterIndex < 0) {
+                openLetterIndex += alphabet.length;
+              }
+              return alphabet[openLetterIndex];
+            });
+            var message = messageArray.join('');
+            _this3.setState({
+              message: message
+            });
+          }, 90 * i);
+        } else {
+          setTimeout(function () {
+            var messageArray = encryptedMessage.map(function (e, i) {
+              var number = Math.round(Math.random() * (_this3.state.alphabet.length - 1));
+              return alphabet[number];
+            });
+            var message = messageArray.join('');
+            _this3.setState({
+              message: message
+            });
+          }, 90 * i);
         }
-        var index1 = alphabet.indexOf(e);
-        var index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
-        var openLetterIndex = (index1 - index2) % alphabet.length;
-        if (openLetterIndex < 0) {
-          openLetterIndex += alphabet.length;
-        }
-        return alphabet[openLetterIndex];
-      });
-      var message = messageArray.join('');
-      this.setState({
-        message: message
-      });
+      }
     }
   }, {
     key: 'render',
@@ -259,7 +248,7 @@ var Container = function (_React$Component2) {
               'Decryption'
             )
           ),
-          _react2.default.createElement(DecryptionField, { onChange: this.decryptIt_2.bind(this), message: this.state.message })
+          _react2.default.createElement(DecryptionField, { onChange: this.decryptIt.bind(this), message: this.state.message })
         )
       );
     }

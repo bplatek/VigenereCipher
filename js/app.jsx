@@ -49,50 +49,41 @@ class Container extends React.Component {
   decryptIt(event) {
     const myKey = this.props.myKey;
     const alphabet = this.state.alphabet;
-    const encryptedMessage = event.target.value;
-    setTimeout(() => {
-      let message = '';
-      let counter = 0;
-      for (let i = 0; i < encryptedMessage.length; i++) {
-        if (counter == myKey.length) {
-          counter = 0;
-        }
-        const index1 = alphabet.indexOf(encryptedMessage[i]);
-        const index2 = alphabet.indexOf(myKey[counter]);
-        let openLetterIndex = (index1 - index2) % alphabet.length;
-        if (openLetterIndex < 0) {
-          openLetterIndex += alphabet.length;
-        }
-        message += alphabet[openLetterIndex]
-        counter++;
-      }
-      this.setState({
-        message: message
-      });
-    }, 1000);
-  }
-  decryptIt_2(event) {
-    const myKey = this.props.myKey;
-    const alphabet = this.state.alphabet;
     const encryptedMessage = event.target.value.split('');
     let keyCycle = -1;
-    console.log(event.target.value);
-    const messageArray = encryptedMessage.map((e, i) => {
-      if (i % (myKey.length) == 0) {
-        keyCycle++;
+    for (let i = 0; i < 10; i++) {
+      if (i == 9) {
+        setTimeout(() => {
+          const messageArray = encryptedMessage.map((e, i) => {
+            if (i % (myKey.length) == 0) {
+              keyCycle++;
+            }
+            const index1 = alphabet.indexOf(e);
+            const index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
+            let openLetterIndex = (index1 - index2) % alphabet.length;
+            if (openLetterIndex < 0) {
+              openLetterIndex += alphabet.length;
+            }
+            return alphabet[openLetterIndex];
+          });
+          const message = messageArray.join('');
+          this.setState({
+            message: message
+          });
+        }, 90 * i);
+      } else {
+        setTimeout(() => {
+          const messageArray = encryptedMessage.map((e, i) => {
+            const number = Math.round(Math.random() * (this.state.alphabet.length - 1));
+            return alphabet[number];
+          });
+          const message = messageArray.join('');
+          this.setState({
+            message: message
+          });
+        }, 90 * i);
       }
-      const index1 = alphabet.indexOf(e);
-      const index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
-      let openLetterIndex = (index1 - index2) % alphabet.length;
-      if (openLetterIndex < 0) {
-        openLetterIndex += alphabet.length;
-      }
-      return alphabet[openLetterIndex];
-    });
-    const message = messageArray.join('');
-    this.setState({
-      message: message
-    });
+    }
   }
   render() {
     return (
@@ -110,7 +101,7 @@ class Container extends React.Component {
             <div className="decryption-title">
               <span className="encryption-title-title">Decryption</span>
             </div>
-            <DecryptionField onChange={this.decryptIt_2.bind(this)} message={this.state.message}/>
+            <DecryptionField onChange={this.decryptIt.bind(this)} message={this.state.message}/>
           </div>
       </div>
     )
