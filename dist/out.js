@@ -9811,7 +9811,7 @@ var Container = function (_React$Component2) {
       openText: '',
       cipherText: '',
       message: '',
-      alphabet: ['a', 'ą', 'A', 'Ą', 'b', 'B', 'c', 'ć', 'C', 'Ć', 'd', 'D', 'e', 'ę', 'E', 'Ę', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'ł', 'L', 'Ł', 'm', 'M', 'n', 'ń', 'N', 'Ń', 'o', 'ó', 'O', 'Ó', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'ś', 'S', 'Ś', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'ź', 'Z', 'Ź', '.', ',', ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '(', ')']
+      alphabet: ['a', 'ą', 'A', 'Ą', 'b', 'B', 'c', 'ć', 'C', 'Ć', 'd', 'D', 'e', 'ę', 'E', 'Ę', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'ł', 'L', 'Ł', 'm', 'M', 'n', 'ń', 'N', 'Ń', 'o', 'ó', 'O', 'Ó', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'ś', 'S', 'Ś', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'ź', 'ż', 'Z', 'Ź', 'Ż', '.', ',', ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')']
     };
     return _this2;
   }
@@ -9819,31 +9819,6 @@ var Container = function (_React$Component2) {
   _createClass(Container, [{
     key: 'encryptIt',
     value: function encryptIt(event) {
-      if (this.props.myKey.length == 0) {
-        alert('Your key is empty!');
-      } else {
-        var myKey = this.props.myKey;
-        var alphabet = this.state.alphabet;
-        var openText = event.target.value;
-        var counter = 0;
-        for (var i = 0; i < openText.length; i++) {
-          if (counter == myKey.length) {
-            counter = 0;
-          }
-          var index1 = alphabet.indexOf(openText[i]);
-          var index2 = alphabet.indexOf(myKey[counter]);
-          var cipherLetter = alphabet[(index1 + index2) % alphabet.length];
-          this.setState({
-            openText: event.target.value,
-            cipherText: this.state.cipherText + cipherLetter
-          });
-          counter++;
-        }
-      }
-    }
-  }, {
-    key: 'encryptIt_2',
-    value: function encryptIt_2(event) {
       var myKey = this.props.myKey;
       var alphabet = this.state.alphabet;
       var openText = event.target.value.split('');
@@ -9857,8 +9832,7 @@ var Container = function (_React$Component2) {
         var cipherLetter = alphabet[(index1 + index2) % alphabet.length];
         return cipherLetter;
       });
-      var cipherText = openText;
-      cipherText = cipherTextArray.join('');
+      var cipherText = cipherTextArray.join('');
       this.setState({
         openText: event.target.value,
         cipherText: cipherText
@@ -9914,7 +9888,7 @@ var Container = function (_React$Component2) {
           _react2.default.createElement(
             'div',
             { className: 'encryption-field' },
-            _react2.default.createElement(EncryptionInput, { onChange: this.encryptIt_2.bind(this) }),
+            _react2.default.createElement(EncryptionInput, { onChange: this.encryptIt.bind(this) }),
             _react2.default.createElement(EncryptionOutput, { cipherText: this.state.cipherText })
           )
         ),

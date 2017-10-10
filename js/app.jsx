@@ -23,33 +23,10 @@ class Container extends React.Component {
       openText: '',
       cipherText: '',
       message: '',
-      alphabet: ['a','ą','A','Ą','b','B','c','ć','C','Ć','d','D','e','ę','E','Ę','f','F','g','G','h','H','i','I','j','J','k','K','l','ł','L','Ł','m','M','n','ń','N','Ń','o','ó','O','Ó','p','P','q','Q','r','R','s','ś','S','Ś','t','T','u','U','v','V','w','W','x','X','y','Y','z','ź','Z','Ź','.',',',' ','1','2','3','4','5','6','7','8','9','0','(',')']
+      alphabet: ['a','ą','A','Ą','b','B','c','ć','C','Ć','d','D','e','ę','E','Ę','f','F','g','G','h','H','i','I','j','J','k','K','l','ł','L','Ł','m','M','n','ń','N','Ń','o','ó','O','Ó','p','P','q','Q','r','R','s','ś','S','Ś','t','T','u','U','v','V','w','W','x','X','y','Y','z','ź','ż','Z','Ź','Ż','.',',',' ','1','2','3','4','5','6','7','8','9','0','!','@','#','$','%','^','&','*','(',')']
     }
   }
   encryptIt(event) {
-    if (this.props.myKey.length == 0) {
-      alert('Your key is empty!');
-    } else {
-      const myKey = this.props.myKey;
-      const alphabet = this.state.alphabet;
-      const openText = event.target.value;
-      let counter = 0;
-      for (let i = 0; i < openText.length; i++) {
-        if (counter == myKey.length) {
-          counter = 0;
-        }
-        const index1 = alphabet.indexOf(openText[i]);
-        const index2 = alphabet.indexOf(myKey[counter]);
-        const cipherLetter = alphabet[(index1 + index2) % alphabet.length];
-        this.setState({
-          openText: event.target.value,
-          cipherText: this.state.cipherText + cipherLetter
-        });
-        counter++;
-      }
-    }
-  }
-  encryptIt_2(event) {
     const myKey = this.props.myKey;
     const alphabet = this.state.alphabet;
     const openText = event.target.value.split('');
@@ -59,12 +36,11 @@ class Container extends React.Component {
         keyCycle++;
       }
       const index1 = alphabet.indexOf(e);
-      const index2 = alphabet.indexOf(myKey[i - myKey.length*keyCycle]);
+      const index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
       const cipherLetter = alphabet[(index1 + index2) % alphabet.length];
       return cipherLetter;
     });
-    let cipherText = openText;
-    cipherText = cipherTextArray.join('');
+    const cipherText = cipherTextArray.join('');
     this.setState({
       openText: event.target.value,
       cipherText: cipherText
@@ -103,7 +79,7 @@ class Container extends React.Component {
               <span className="encryption-title-title">Encryption</span>
             </div>
             <div className="encryption-field">
-              <EncryptionInput onChange={this.encryptIt_2.bind(this)} />
+              <EncryptionInput onChange={this.encryptIt.bind(this)} />
               <EncryptionOutput cipherText={this.state.cipherText}/>
             </div>
           </div>
