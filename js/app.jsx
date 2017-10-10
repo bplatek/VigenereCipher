@@ -71,6 +71,28 @@ class Container extends React.Component {
       });
     }, 1000);
   }
+  decryptIt_2(event) {
+    const myKey = this.props.myKey;
+    const alphabet = this.state.alphabet;
+    const encryptedMessage = event.target.value;
+    let keyCycle = -1;
+    const messageArray = encryptedMessage.map((e, i) => {
+      if (i % (myKey.length) == 0) {
+        keyCycle++;
+      }
+      const index1 = alphabet.indexOf(e);
+      const index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
+      const openLetterIndex = (index1 - index2) % alphabet.length;
+      if (openLetterIndex < 0) {
+        openLetterIndex += alphabet.length;
+      }
+      return alphabet[openLetterIndex];
+    });
+    const message = messageArray.join('');
+    this.setState({
+      message: message
+    });
+  }
   render() {
     return (
       <div className="container">
@@ -87,7 +109,7 @@ class Container extends React.Component {
             <div className="decryption-title">
               <span className="encryption-title-title">Decryption</span>
             </div>
-            <DecryptionField onChange={this.decryptIt.bind(this)} message={this.state.message}/>
+            <DecryptionField onChange={this.decryptIt_2.bind(this)} message={this.state.message}/>
           </div>
       </div>
     )
