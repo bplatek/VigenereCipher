@@ -156,6 +156,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
 }
 
 .encryption-input, .encryption-output {
@@ -186,6 +187,54 @@ body {
   border-top: 1px solid #495061;
 }
 
+.highlight {
+  background: #41ccab;
+}
+
+.char-counter {
+  padding: 3px 5px 0 5px;
+  position: absolute;
+  right: 50.7%;
+  bottom: 2.5%;
+  /*background: #232837;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Overpass Mono", monospace;
+  font-size: 0.7rem;
+  color: #131827;
+}
+
+.copy-button {
+  padding: 3px 15px 0 15px;
+  position: absolute;
+  left: 50.5%;
+  bottom: 2.5%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px #333847;
+  border: 1px solid #232837;
+  border-radius: 3px;
+  /*background: #232837;*/
+  font-family: "Overpass Mono", monospace;
+  font-size: 0.7rem;
+  color: #131827;
+}
+
+.copy-button:hover {
+  cursor: pointer;
+  color: #41ccab;
+  text-shadow: 0 0 8px 6px #33aa8c;
+}
+
+.copy-button:active {
+  box-shadow: inset 0 0 2px 1px #333847;
+  cursor: pointer;
+  color: #41ccab;
+  text-shadow: 0 0 8px #33aa8c;
+}
+
 .decryption-section {
   width: 100%;
   height: 50%;
@@ -211,6 +260,10 @@ body {
 
 textarea::selection {
   background: salmon;
+  color: #232837;
+}
+
+textarea::-webkit-input-placeholder {
   color: #232837;
 }
 

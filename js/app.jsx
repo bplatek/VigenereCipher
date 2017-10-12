@@ -29,9 +29,10 @@ class Container extends React.Component {
   encryptIt(event) {
     const myKey = this.props.myKey;
     const alphabet = this.state.alphabet;
-    const openText = event.target.value.split('');
+    const openText = event.target.value;
+    const openTextArray = event.target.value.split('');
     let keyCycle = -1;
-    const cipherTextArray = openText.map((e, i) => {
+    const cipherTextArray = openTextArray.map((e, i) => {
       if (i % (myKey.length) == 0) {
         keyCycle++;
       }
@@ -41,10 +42,24 @@ class Container extends React.Component {
       return cipherLetter;
     });
     const cipherText = cipherTextArray.join('');
-    this.setState({
-      openText: event.target.value,
-      cipherText: cipherText
-    });
+    for (let i = 0; i < 3; i++) {
+      if (i == 2) {
+        setTimeout(() => {
+          this.setState({
+            openText: openText,
+            cipherText: cipherText
+          });
+        }, 150 * i);
+      } else {
+        setTimeout(() => {
+          const number = Math.round(Math.random() * (this.state.alphabet.length - 1));
+          this.setState({
+            openText: openText,
+            cipherText: cipherText.slice(0, -1) + alphabet[number]
+          });
+        }, 50 * i);
+      }
+    }
   }
   decryptIt(event) {
     const myKey = this.props.myKey;
@@ -94,7 +109,9 @@ class Container extends React.Component {
             </div>
             <div className="encryption-field">
               <EncryptionInput onChange={this.encryptIt.bind(this)} />
+              <div className="char-counter">{this.state.openText.length}/1000</div>
               <EncryptionOutput cipherText={this.state.cipherText}/>
+              <div className="copy-button">Copy</div>
             </div>
           </div>
           <div className="decryption-section">
@@ -111,7 +128,7 @@ class Container extends React.Component {
 class EncryptionInput extends React.Component {
   render() {
     return (
-      <textarea className="encryption-input" onChange={this.props.onChange}></textarea>
+      <textarea className="encryption-input" onChange={this.props.onChange} placeholder="Enter your text here"></textarea>
     )
   }
 }
@@ -127,7 +144,7 @@ class EncryptionOutput extends React.Component {
 class DecryptionField extends React.Component {
   render() {
     return (
-      <textarea className="decryption-field" onChange={this.props.onChange} value={this.props.message}></textarea>
+      <textarea className="decryption-field" onChange={this.props.onChange} value={this.props.message} placeholder="Paste encrypted message here"></textarea>
     )
   }
 }
