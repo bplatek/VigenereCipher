@@ -2,6 +2,8 @@ import React from 'react';
 import EncryptionInput from './encryption-input.jsx';
 import EncryptionOutput from './encryption-output.jsx';
 import DecryptionField from './decryption-field.jsx';
+import Button from './button.jsx';
+import Tooltip from './tooltip.jsx';
 
 export default class CipherMachine extends React.Component {
   constructor(props) {
@@ -87,6 +89,10 @@ export default class CipherMachine extends React.Component {
       }
     }
   }
+  copyToClipboard(event) {
+    document.querySelector(".encryption-output").select();
+    document.execCommand("copy");
+  }
   render() {
     return (
       <div className="machine-wrapper">
@@ -98,7 +104,7 @@ export default class CipherMachine extends React.Component {
               <EncryptionInput onChange={this.encryptIt.bind(this)} />
               <div className="char-counter">{this.state.openText.length}/1000</div>
               <EncryptionOutput cipherText={this.state.cipherText}/>
-              <div className="copy-button">Copy</div>
+              <Button className="button copy-button" text="Copy" onClick={this.copyToClipboard.bind(this)}/>
             </div>
           </div>
           <div className="decryption-section">

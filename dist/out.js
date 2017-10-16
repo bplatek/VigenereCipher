@@ -9750,6 +9750,14 @@ var _reactDom = __webpack_require__(98);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _loader = __webpack_require__(191);
+
+var _loader2 = _interopRequireDefault(_loader);
+
+var _appContainer = __webpack_require__(195);
+
+var _appContainer2 = _interopRequireDefault(_appContainer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9758,356 +9766,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Header = function (_React$Component) {
-  _inherits(Header, _React$Component);
-
-  function Header() {
-    _classCallCheck(this, Header);
-
-    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-  }
-
-  _createClass(Header, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'header' },
-        _react2.default.createElement(
-          'div',
-          { className: 'header-logo' },
-          _react2.default.createElement(
-            'span',
-            null,
-            '\u039E'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'header-key' },
-          _react2.default.createElement(
-            'span',
-            null,
-            'KEY:'
-          ),
-          _react2.default.createElement('input', { id: 'keyInput', type: 'text', name: 'key', onChange: this.props.updateKey })
-        )
-      );
-    }
-  }]);
-
-  return Header;
-}(_react2.default.Component);
-
-var Container = function (_React$Component2) {
-  _inherits(Container, _React$Component2);
-
-  function Container(props) {
-    _classCallCheck(this, Container);
-
-    var _this2 = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
-
-    _this2.state = {
-      openText: '',
-      cipherText: '',
-      message: '',
-      alphabet: ['a', 'ą', 'A', 'Ą', 'b', 'B', 'c', 'ć', 'C', 'Ć', 'd', 'D', 'e', 'ę', 'E', 'Ę', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'ł', 'L', 'Ł', 'm', 'M', 'n', 'ń', 'N', 'Ń', 'o', 'ó', 'O', 'Ó', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'ś', 'S', 'Ś', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'ź', 'ż', 'Z', 'Ź', 'Ż', '.', ',', ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')']
-    };
-    return _this2;
-  }
-
-  _createClass(Container, [{
-    key: 'encryptIt',
-    value: function encryptIt(event) {
-      var _this3 = this;
-
-      var myKey = this.props.myKey;
-      var alphabet = this.state.alphabet;
-      var openText = event.target.value;
-      var openTextArray = event.target.value.split('');
-      var keyCycle = -1;
-      var cipherTextArray = openTextArray.map(function (e, i) {
-        if (i % myKey.length == 0) {
-          keyCycle++;
-        }
-        var index1 = alphabet.indexOf(e);
-        var index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
-        var cipherLetter = alphabet[(index1 + index2) % alphabet.length];
-        return cipherLetter;
-      });
-      var cipherText = cipherTextArray.join('');
-      for (var i = 0; i < 3; i++) {
-        if (i == 2) {
-          setTimeout(function () {
-            _this3.setState({
-              openText: openText,
-              cipherText: cipherText
-            });
-          }, 150 * i);
-        } else {
-          setTimeout(function () {
-            var number = Math.round(Math.random() * (_this3.state.alphabet.length - 1));
-            _this3.setState({
-              openText: openText,
-              cipherText: cipherText.slice(0, -1) + alphabet[number]
-            });
-          }, 50 * i);
-        }
-      }
-    }
-  }, {
-    key: 'decryptIt',
-    value: function decryptIt(event) {
-      var _this4 = this;
-
-      var myKey = this.props.myKey;
-      var alphabet = this.state.alphabet;
-      var encryptedMessage = event.target.value.split('');
-      var keyCycle = -1;
-      for (var i = 0; i < 10; i++) {
-        if (i == 9) {
-          setTimeout(function () {
-            var messageArray = encryptedMessage.map(function (e, i) {
-              if (i % myKey.length == 0) {
-                keyCycle++;
-              }
-              var index1 = alphabet.indexOf(e);
-              var index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
-              var openLetterIndex = (index1 - index2) % alphabet.length;
-              if (openLetterIndex < 0) {
-                openLetterIndex += alphabet.length;
-              }
-              return alphabet[openLetterIndex];
-            });
-            var message = messageArray.join('');
-            _this4.setState({
-              message: message
-            });
-          }, 90 * i);
-        } else {
-          setTimeout(function () {
-            var messageArray = encryptedMessage.map(function (e, i) {
-              var number = Math.round(Math.random() * (_this4.state.alphabet.length - 1));
-              return alphabet[number];
-            });
-            var message = messageArray.join('');
-            _this4.setState({
-              message: message
-            });
-          }, 90 * i);
-        }
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'encryption-section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'encryption-title' },
-            _react2.default.createElement(
-              'span',
-              { className: 'encryption-title-title' },
-              'Encryption'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'encryption-field' },
-            _react2.default.createElement(EncryptionInput, { onChange: this.encryptIt.bind(this) }),
-            _react2.default.createElement(
-              'div',
-              { className: 'char-counter' },
-              this.state.openText.length,
-              '/1000'
-            ),
-            _react2.default.createElement(EncryptionOutput, { cipherText: this.state.cipherText }),
-            _react2.default.createElement(
-              'div',
-              { className: 'copy-button' },
-              'Copy'
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'decryption-section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'decryption-title' },
-            _react2.default.createElement(
-              'span',
-              { className: 'encryption-title-title' },
-              'Decryption'
-            )
-          ),
-          _react2.default.createElement(DecryptionField, { onChange: this.decryptIt.bind(this), message: this.state.message })
-        )
-      );
-    }
-  }]);
-
-  return Container;
-}(_react2.default.Component);
-
-var EncryptionInput = function (_React$Component3) {
-  _inherits(EncryptionInput, _React$Component3);
-
-  function EncryptionInput() {
-    _classCallCheck(this, EncryptionInput);
-
-    return _possibleConstructorReturn(this, (EncryptionInput.__proto__ || Object.getPrototypeOf(EncryptionInput)).apply(this, arguments));
-  }
-
-  _createClass(EncryptionInput, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('textarea', { className: 'encryption-input', onChange: this.props.onChange, placeholder: 'Enter your text here' });
-    }
-  }]);
-
-  return EncryptionInput;
-}(_react2.default.Component);
-
-var EncryptionOutput = function (_React$Component4) {
-  _inherits(EncryptionOutput, _React$Component4);
-
-  function EncryptionOutput() {
-    _classCallCheck(this, EncryptionOutput);
-
-    return _possibleConstructorReturn(this, (EncryptionOutput.__proto__ || Object.getPrototypeOf(EncryptionOutput)).apply(this, arguments));
-  }
-
-  _createClass(EncryptionOutput, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('textarea', { className: 'encryption-output', value: this.props.cipherText });
-    }
-  }]);
-
-  return EncryptionOutput;
-}(_react2.default.Component);
-
-var DecryptionField = function (_React$Component5) {
-  _inherits(DecryptionField, _React$Component5);
-
-  function DecryptionField() {
-    _classCallCheck(this, DecryptionField);
-
-    return _possibleConstructorReturn(this, (DecryptionField.__proto__ || Object.getPrototypeOf(DecryptionField)).apply(this, arguments));
-  }
-
-  _createClass(DecryptionField, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('textarea', { className: 'decryption-field', onChange: this.props.onChange, value: this.props.message, placeholder: 'Paste encrypted message here' });
-    }
-  }]);
-
-  return DecryptionField;
-}(_react2.default.Component);
-
-var Footer = function (_React$Component6) {
-  _inherits(Footer, _React$Component6);
-
-  function Footer() {
-    _classCallCheck(this, Footer);
-
-    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
-  }
-
-  _createClass(Footer, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'footer' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'Copyright \xA9 Bartosz P\u0142atek 2017. All rights reserved.'
-        )
-      );
-    }
-  }]);
-
-  return Footer;
-}(_react2.default.Component);
-
-var Machine = function (_React$Component7) {
-  _inherits(Machine, _React$Component7);
-
-  function Machine(props) {
-    _classCallCheck(this, Machine);
-
-    var _this9 = _possibleConstructorReturn(this, (Machine.__proto__ || Object.getPrototypeOf(Machine)).call(this, props));
-
-    _this9.state = {
-      myKey: ''
-    };
-    return _this9;
-  }
-
-  _createClass(Machine, [{
-    key: 'updateKey',
-    value: function updateKey(event) {
-      this.setState({
-        myKey: event.target.value
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'wrapper' },
-        _react2.default.createElement(Header, { updateKey: this.updateKey.bind(this) }),
-        _react2.default.createElement(Container, { myKey: this.state.myKey }),
-        _react2.default.createElement(Footer, null)
-      );
-    }
-  }]);
-
-  return Machine;
-}(_react2.default.Component);
-
-var App = function (_React$Component8) {
-  _inherits(App, _React$Component8);
+var App = function (_React$Component) {
+  _inherits(App, _React$Component);
 
   function App(props) {
     _classCallCheck(this, App);
 
-    var _this10 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-    _this10.state = {
-      content: _react2.default.createElement(
-        'div',
-        { className: 'wrapper-loader' },
-        _react2.default.createElement(
-          'div',
-          { className: 'loader' },
-          'Loading...'
-        )
-      )
+    _this.state = {
+      content: _react2.default.createElement(_loader2.default, null)
     };
-    return _this10;
+    return _this;
   }
 
   _createClass(App, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this11 = this;
+      var _this2 = this;
 
       setTimeout(function () {
-        _this11.setState({
-          content: _react2.default.createElement(Machine, null)
+        _this2.setState({
+          content: _react2.default.createElement(_appContainer2.default, null)
         });
-      }, 2000);
+      }, 1500);
     }
   }, {
     key: 'render',
@@ -22756,6 +22438,705 @@ var ReactDOMInvalidARIAHook = {
 
 module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 184 */,
+/* 185 */,
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EncryptionInput = function (_React$Component) {
+  _inherits(EncryptionInput, _React$Component);
+
+  function EncryptionInput() {
+    _classCallCheck(this, EncryptionInput);
+
+    return _possibleConstructorReturn(this, (EncryptionInput.__proto__ || Object.getPrototypeOf(EncryptionInput)).apply(this, arguments));
+  }
+
+  _createClass(EncryptionInput, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement("textarea", { className: "encryption-input", onChange: this.props.onChange, placeholder: "Enter your text here" });
+    }
+  }]);
+
+  return EncryptionInput;
+}(_react2.default.Component);
+
+exports.default = EncryptionInput;
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Header = function (_React$Component) {
+  _inherits(Header, _React$Component);
+
+  function Header() {
+    _classCallCheck(this, Header);
+
+    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+  }
+
+  _createClass(Header, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "header" },
+        _react2.default.createElement(
+          "div",
+          { className: "header-logo" },
+          _react2.default.createElement(
+            "span",
+            null,
+            "\u039E"
+          )
+        ),
+        _react2.default.createElement(
+          "div",
+          { className: "header-key" },
+          _react2.default.createElement(
+            "span",
+            null,
+            "KEY:"
+          ),
+          _react2.default.createElement("input", { id: "keyInput", type: "text", name: "key", onChange: this.props.updateKey })
+        )
+      );
+    }
+  }]);
+
+  return Header;
+}(_react2.default.Component);
+
+exports.default = Header;
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DecryptionField = function (_React$Component) {
+  _inherits(DecryptionField, _React$Component);
+
+  function DecryptionField() {
+    _classCallCheck(this, DecryptionField);
+
+    return _possibleConstructorReturn(this, (DecryptionField.__proto__ || Object.getPrototypeOf(DecryptionField)).apply(this, arguments));
+  }
+
+  _createClass(DecryptionField, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement("textarea", { className: "decryption-field", onChange: this.props.onChange, value: this.props.message, placeholder: "Paste encrypted message here" });
+    }
+  }]);
+
+  return DecryptionField;
+}(_react2.default.Component);
+
+exports.default = DecryptionField;
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Footer = function (_React$Component) {
+  _inherits(Footer, _React$Component);
+
+  function Footer() {
+    _classCallCheck(this, Footer);
+
+    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
+  }
+
+  _createClass(Footer, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "footer" },
+        _react2.default.createElement(
+          "p",
+          null,
+          "Copyright \xA9 Bartosz P\u0142atek 2017. All rights reserved."
+        )
+      );
+    }
+  }]);
+
+  return Footer;
+}(_react2.default.Component);
+
+exports.default = Footer;
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _encryptionInput = __webpack_require__(186);
+
+var _encryptionInput2 = _interopRequireDefault(_encryptionInput);
+
+var _encryptionOutput = __webpack_require__(194);
+
+var _encryptionOutput2 = _interopRequireDefault(_encryptionOutput);
+
+var _decryptionField = __webpack_require__(188);
+
+var _decryptionField2 = _interopRequireDefault(_decryptionField);
+
+var _button = __webpack_require__(196);
+
+var _button2 = _interopRequireDefault(_button);
+
+var _tooltip = __webpack_require__(197);
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CipherMachine = function (_React$Component) {
+  _inherits(CipherMachine, _React$Component);
+
+  function CipherMachine(props) {
+    _classCallCheck(this, CipherMachine);
+
+    var _this = _possibleConstructorReturn(this, (CipherMachine.__proto__ || Object.getPrototypeOf(CipherMachine)).call(this, props));
+
+    _this.state = {
+      openText: '',
+      cipherText: '',
+      message: '',
+      alphabet: ['a', 'ą', 'A', 'Ą', 'b', 'B', 'c', 'ć', 'C', 'Ć', 'd', 'D', 'e', 'ę', 'E', 'Ę', 'f', 'F', 'g', 'G', 'h', 'H', 'i', 'I', 'j', 'J', 'k', 'K', 'l', 'ł', 'L', 'Ł', 'm', 'M', 'n', 'ń', 'N', 'Ń', 'o', 'ó', 'O', 'Ó', 'p', 'P', 'q', 'Q', 'r', 'R', 's', 'ś', 'S', 'Ś', 't', 'T', 'u', 'U', 'v', 'V', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'ź', 'ż', 'Z', 'Ź', 'Ż', '.', ',', ' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')']
+    };
+    return _this;
+  }
+
+  _createClass(CipherMachine, [{
+    key: 'encryptIt',
+    value: function encryptIt(event) {
+      var _this2 = this;
+
+      var myKey = this.props.myKey;
+      var alphabet = this.state.alphabet;
+      var openText = event.target.value;
+      var openTextArray = event.target.value.split('');
+      var keyCycle = -1;
+      var cipherTextArray = openTextArray.map(function (e, i) {
+        if (i % myKey.length == 0) {
+          keyCycle++;
+        }
+        var index1 = alphabet.indexOf(e);
+        var index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
+        var cipherLetter = alphabet[(index1 + index2) % alphabet.length];
+        return cipherLetter;
+      });
+      var cipherText = cipherTextArray.join('');
+      for (var i = 0; i < 3; i++) {
+        if (i == 2) {
+          setTimeout(function () {
+            _this2.setState({
+              openText: openText,
+              cipherText: cipherText
+            });
+          }, 150 * i);
+        } else {
+          setTimeout(function () {
+            var number = Math.round(Math.random() * (_this2.state.alphabet.length - 1));
+            _this2.setState({
+              openText: openText,
+              cipherText: cipherText.slice(0, -1) + alphabet[number]
+            });
+          }, 50 * i);
+        }
+      }
+    }
+  }, {
+    key: 'decryptIt',
+    value: function decryptIt(event) {
+      var _this3 = this;
+
+      var myKey = this.props.myKey;
+      var alphabet = this.state.alphabet;
+      var encryptedMessage = event.target.value.split('');
+      var keyCycle = -1;
+      for (var i = 0; i < 10; i++) {
+        if (i == 9) {
+          setTimeout(function () {
+            var messageArray = encryptedMessage.map(function (e, i) {
+              if (i % myKey.length == 0) {
+                keyCycle++;
+              }
+              var index1 = alphabet.indexOf(e);
+              var index2 = alphabet.indexOf(myKey[i - myKey.length * keyCycle]);
+              var openLetterIndex = (index1 - index2) % alphabet.length;
+              if (openLetterIndex < 0) {
+                openLetterIndex += alphabet.length;
+              }
+              return alphabet[openLetterIndex];
+            });
+            var message = messageArray.join('');
+            _this3.setState({
+              message: message
+            });
+          }, 90 * i);
+        } else {
+          setTimeout(function () {
+            var messageArray = encryptedMessage.map(function (e, i) {
+              var number = Math.round(Math.random() * (_this3.state.alphabet.length - 1));
+              return alphabet[number];
+            });
+            var message = messageArray.join('');
+            _this3.setState({
+              message: message
+            });
+          }, 90 * i);
+        }
+      }
+    }
+  }, {
+    key: 'copyToClipboard',
+    value: function copyToClipboard(event) {
+      document.querySelector(".encryption-output").select();
+      document.execCommand("copy");
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'machine-wrapper' },
+        _react2.default.createElement(
+          'div',
+          { className: 'encryption-section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'encryption-title' },
+            _react2.default.createElement(
+              'span',
+              { className: 'encryption-title-title' },
+              'Encryption'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'encryption-field' },
+            _react2.default.createElement(_encryptionInput2.default, { onChange: this.encryptIt.bind(this) }),
+            _react2.default.createElement(
+              'div',
+              { className: 'char-counter' },
+              this.state.openText.length,
+              '/1000'
+            ),
+            _react2.default.createElement(_encryptionOutput2.default, { cipherText: this.state.cipherText }),
+            _react2.default.createElement(_button2.default, { className: 'button copy-button', text: 'Copy', onClick: this.copyToClipboard.bind(this) })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'decryption-section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'decryption-title' },
+            _react2.default.createElement(
+              'span',
+              { className: 'encryption-title-title' },
+              'Decryption'
+            )
+          ),
+          _react2.default.createElement(_decryptionField2.default, { onChange: this.decryptIt.bind(this), message: this.state.message })
+        )
+      );
+    }
+  }]);
+
+  return CipherMachine;
+}(_react2.default.Component);
+
+exports.default = CipherMachine;
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Loader = function (_React$Component) {
+  _inherits(Loader, _React$Component);
+
+  function Loader() {
+    _classCallCheck(this, Loader);
+
+    return _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).apply(this, arguments));
+  }
+
+  _createClass(Loader, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "wrapper-loader" },
+        _react2.default.createElement(
+          "div",
+          { className: "loader" },
+          "Loading..."
+        )
+      );
+    }
+  }]);
+
+  return Loader;
+}(_react2.default.Component);
+
+exports.default = Loader;
+
+/***/ }),
+/* 192 */,
+/* 193 */,
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EncryptionOutput = function (_React$Component) {
+  _inherits(EncryptionOutput, _React$Component);
+
+  function EncryptionOutput() {
+    _classCallCheck(this, EncryptionOutput);
+
+    return _possibleConstructorReturn(this, (EncryptionOutput.__proto__ || Object.getPrototypeOf(EncryptionOutput)).apply(this, arguments));
+  }
+
+  _createClass(EncryptionOutput, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement("textarea", { className: "encryption-output", value: this.props.cipherText });
+    }
+  }]);
+
+  return EncryptionOutput;
+}(_react2.default.Component);
+
+exports.default = EncryptionOutput;
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _header = __webpack_require__(187);
+
+var _header2 = _interopRequireDefault(_header);
+
+var _cipherMachine = __webpack_require__(190);
+
+var _cipherMachine2 = _interopRequireDefault(_cipherMachine);
+
+var _footer = __webpack_require__(189);
+
+var _footer2 = _interopRequireDefault(_footer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Container = function (_React$Component) {
+  _inherits(Container, _React$Component);
+
+  function Container(props) {
+    _classCallCheck(this, Container);
+
+    var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
+
+    _this.state = {
+      myKey: ''
+    };
+    return _this;
+  }
+
+  _createClass(Container, [{
+    key: 'updateKey',
+    value: function updateKey(event) {
+      this.setState({
+        myKey: event.target.value
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(_header2.default, { updateKey: this.updateKey.bind(this) }),
+        _react2.default.createElement(_cipherMachine2.default, { myKey: this.state.myKey }),
+        _react2.default.createElement(_footer2.default, null)
+      );
+    }
+  }]);
+
+  return Container;
+}(_react2.default.Component);
+
+exports.default = Container;
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Button = function (_React$Component) {
+  _inherits(Button, _React$Component);
+
+  function Button() {
+    _classCallCheck(this, Button);
+
+    return _possibleConstructorReturn(this, (Button.__proto__ || Object.getPrototypeOf(Button)).apply(this, arguments));
+  }
+
+  _createClass(Button, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: this.props.className, onClick: this.props.onClick },
+        this.props.text
+      );
+    }
+  }]);
+
+  return Button;
+}(_react2.default.Component);
+
+exports.default = Button;
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Tooltip = function (_React$Component) {
+  _inherits(Tooltip, _React$Component);
+
+  function Tooltip() {
+    _classCallCheck(this, Tooltip);
+
+    return _possibleConstructorReturn(this, (Tooltip.__proto__ || Object.getPrototypeOf(Tooltip)).apply(this, arguments));
+  }
+
+  _createClass(Tooltip, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: this.props.className },
+        this.props.text
+      );
+    }
+  }]);
+
+  return Tooltip;
+}(_react2.default.Component);
+
+exports.default = Tooltip;
 
 /***/ })
 /******/ ]);
