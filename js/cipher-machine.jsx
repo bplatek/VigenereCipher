@@ -3,7 +3,7 @@ import EncryptionInput from './encryption-input.jsx';
 import EncryptionOutput from './encryption-output.jsx';
 import DecryptionField from './decryption-field.jsx';
 import Button from './button.jsx';
-import Tooltip from './tooltip.jsx';
+import Bulb from './bulb.jsx';
 
 export default class CipherMachine extends React.Component {
   constructor(props) {
@@ -31,14 +31,14 @@ export default class CipherMachine extends React.Component {
       return cipherLetter;
     });
     const cipherText = cipherTextArray.join('');
-    for (let i = 0; i < 3; i++) {
-      if (i == 2) {
+    for (let i = 0; i < 4; i++) {
+      if (i == 4) {
         setTimeout(() => {
           this.setState({
             openText: openText,
             cipherText: cipherText
           });
-        }, 150 * i);
+        }, 50 * i);
       } else {
         setTimeout(() => {
           const number = Math.round(Math.random() * (this.state.alphabet.length - 1));
@@ -55,8 +55,8 @@ export default class CipherMachine extends React.Component {
     const alphabet = this.state.alphabet;
     const encryptedMessage = event.target.value.split('');
     let keyCycle = -1;
-    for (let i = 0; i < 10; i++) {
-      if (i == 9) {
+    for (let i = 0; i < 15; i++) {
+      if (i == 14) {
         setTimeout(() => {
           const messageArray = encryptedMessage.map((e, i) => {
             if (i % (myKey.length) == 0) {
@@ -74,7 +74,7 @@ export default class CipherMachine extends React.Component {
           this.setState({
             message: message
           });
-        }, 90 * i);
+        }, 50 * i);
       } else {
         setTimeout(() => {
           const messageArray = encryptedMessage.map((e, i) => {
@@ -85,7 +85,7 @@ export default class CipherMachine extends React.Component {
           this.setState({
             message: message
           });
-        }, 90 * i);
+        }, 50 * i);
       }
     }
   }
