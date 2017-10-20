@@ -31,7 +31,7 @@ export default class CipherMachine extends React.Component {
       return cipherLetter;
     });
     const cipherText = cipherTextArray.join('');
-    for (let i = 0; i < 4; i++) {
+    for (let i = 1; i < 5; i++) {
       if (i == 4) {
         setTimeout(() => {
           this.setState({
