@@ -22797,44 +22797,39 @@ var CipherMachine = function (_React$Component) {
         { className: 'machine-wrapper' },
         _react2.default.createElement(
           'div',
+          { className: 'encryption-title' },
+          _react2.default.createElement(
+            'span',
+            { className: 'encryption-title-title' },
+            'Encryption'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
           { className: 'encryption-section' },
+          _react2.default.createElement(_encryptionInput2.default, { onChange: this.encryptIt.bind(this) }),
           _react2.default.createElement(
             'div',
-            { className: 'encryption-title' },
-            _react2.default.createElement(
-              'span',
-              { className: 'encryption-title-title' },
-              'Encryption'
-            )
+            { className: 'char-counter' },
+            this.state.openText.length,
+            '/1000'
           ),
+          _react2.default.createElement(_encryptionOutput2.default, { cipherText: this.state.cipherText }),
+          _react2.default.createElement(_button2.default, { className: 'button copy-button', text: 'Copy', onClick: this.copyToClipboard.bind(this) })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'decryption-title' },
           _react2.default.createElement(
-            'div',
-            { className: 'encryption-field' },
-            _react2.default.createElement(_encryptionInput2.default, { onChange: this.encryptIt.bind(this) }),
-            _react2.default.createElement(
-              'div',
-              { className: 'char-counter' },
-              this.state.openText.length,
-              '/1000'
-            ),
-            _react2.default.createElement(_encryptionOutput2.default, { cipherText: this.state.cipherText }),
-            _react2.default.createElement(_button2.default, { className: 'button copy-button', text: 'Copy', onClick: this.copyToClipboard.bind(this) })
+            'span',
+            { className: 'encryption-title-title' },
+            'Decryption'
           )
         ),
         _react2.default.createElement(
           'div',
           { className: 'decryption-section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'decryption-title' },
-            _react2.default.createElement(
-              'span',
-              { className: 'encryption-title-title' },
-              'Decryption'
-            )
-          ),
-          _react2.default.createElement(_decryptionField2.default, { onChange: this.decryptIt.bind(this), message: this.state.message }),
-          _react2.default.createElement(_button2.default, { className: 'button paste-button', text: 'Paste', onClick: this.pasteFromClipboard.bind(this) })
+          _react2.default.createElement(_decryptionField2.default, { onChange: this.decryptIt.bind(this), message: this.state.message })
         )
       );
     }
