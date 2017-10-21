@@ -3,7 +3,6 @@ import EncryptionInput from './encryption-input.jsx';
 import EncryptionOutput from './encryption-output.jsx';
 import DecryptionField from './decryption-field.jsx';
 import Button from './button.jsx';
-import Bulb from './bulb.jsx';
 
 export default class CipherMachine extends React.Component {
   constructor(props) {
@@ -74,7 +73,7 @@ export default class CipherMachine extends React.Component {
           this.setState({
             message: message
           });
-        }, 50 * i);
+        }, 90 * i);
       } else {
         setTimeout(() => {
           const messageArray = encryptedMessage.map((e, i) => {
@@ -85,7 +84,7 @@ export default class CipherMachine extends React.Component {
           this.setState({
             message: message
           });
-        }, 50 * i);
+        }, 90 * i);
       }
     }
   }
@@ -93,26 +92,28 @@ export default class CipherMachine extends React.Component {
     document.querySelector(".encryption-output").select();
     document.execCommand("copy");
   }
+  pasteFromClipboard(event) {
+    document.querySelector(".decryption-field").focus();
+    document.execCommand("paste");
+  }
   render() {
     return (
       <div className="machine-wrapper">
-          <div className="encryption-section">
-            <div className="encryption-title">
-              <span className="encryption-title-title">Encryption</span>
-            </div>
-            <div className="encryption-field">
-              <EncryptionInput onChange={this.encryptIt.bind(this)} />
-              <div className="char-counter">{this.state.openText.length}/1000</div>
-              <EncryptionOutput cipherText={this.state.cipherText}/>
-              <Button className="button copy-button" text="Copy" onClick={this.copyToClipboard.bind(this)}/>
-            </div>
-          </div>
-          <div className="decryption-section">
-            <div className="decryption-title">
-              <span className="encryption-title-title">Decryption</span>
-            </div>
-            <DecryptionField onChange={this.decryptIt.bind(this)} message={this.state.message}/>
-          </div>
+        <div className="encryption-title">
+          <span className="encryption-title-title">Encryption</span>
+        </div>
+        <div className="encryption-section">
+          <EncryptionInput onChange={this.encryptIt.bind(this)} />
+          <div className="char-counter">{this.state.openText.length}/1000</div>
+          <EncryptionOutput cipherText={this.state.cipherText}/>
+          <Button className="button copy-button" text="Copy" onClick={this.copyToClipboard.bind(this)}/>
+        </div>
+        <div className="decryption-title">
+          <span className="encryption-title-title">Decryption</span>
+        </div>
+        <div className="decryption-section">
+          <DecryptionField onChange={this.decryptIt.bind(this)} message={this.state.message}/>
+        </div>
       </div>
     )
   }
